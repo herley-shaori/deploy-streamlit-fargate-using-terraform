@@ -47,3 +47,14 @@ resource "aws_iam_role" "codebuild_role" {
     ]
   })
 }
+
+
+resource "aws_iam_role_policy_attachment" "codebuild_cloudwatch_policy_attachment" {
+  role       = aws_iam_role.codebuild_role.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchFullAccessV2"
+}
+
+resource "aws_iam_role_policy_attachment" "codebuild_s3_policy_attachment" {
+  role       = aws_iam_role.codebuild_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+}
