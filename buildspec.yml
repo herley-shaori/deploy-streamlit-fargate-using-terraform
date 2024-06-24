@@ -3,14 +3,23 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - echo "Preparing to build the Docker image..."
+      - echo "Logging in to Amazon ECR..."
+      - aws --version
+      - $(aws ecr get-login-password --region ap-southeast-3 | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.ap-southeast-3.amazonaws.com)
+      - REPOSITORY_URI=${AWS_ACCOUNT_ID}.dkr.ecr.ap-southeast-3.amazonaws.com/my-ecr-repo
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=${COMMIT_HASH:=latest}
   build:
     commands:
       - echo "Building the Docker image..."
-      - docker build -t hello-world:latest .
+      - docker build -t $REPOSITORY_URI:latest .
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
   post_build:
     commands:
-      - echo "Docker image build completed."
+      - echo "Pushing the Docker image to ECR..."
+      - docker push $REPOSITORY_URI:latest
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - echo "Docker image build and push completed."
 
 artifacts:
   files:
