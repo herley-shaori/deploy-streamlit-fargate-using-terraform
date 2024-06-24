@@ -1,9 +1,16 @@
 version: 0.2
 
 phases:
+  install:
+    runtime-versions:
+      python: 3.8
+    commands:
+      - echo "Installing necessary dependencies..."
+      - pip install awscli
   pre_build:
     commands:
       - echo "Logging in to Amazon ECR..."
+      - export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)
       - aws --version
       - $(aws ecr get-login-password --region ap-southeast-3 | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.ap-southeast-3.amazonaws.com)
       - REPOSITORY_URI=${AWS_ACCOUNT_ID}.dkr.ecr.ap-southeast-3.amazonaws.com/my-ecr-repo
