@@ -22,7 +22,7 @@ resource "aws_codebuild_project" "docker_build" {
 
   source {
     type            = "CODEPIPELINE"
-    buildspec       = file("buildspec.yml")
+    buildspec       = file("${path.module}/buildspec.yml")
   }
 
   tags = {
