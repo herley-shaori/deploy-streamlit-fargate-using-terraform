@@ -1,0 +1,1 @@
+aws s3 cp source_code.zip s3://$(cat bucket_name.txt)/

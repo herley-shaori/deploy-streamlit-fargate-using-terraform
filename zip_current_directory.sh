@@ -1,0 +1,1 @@
+zip -r source_code.zip . -x "*.terraform*" -x ".venv/*" -x ".terraform/*" -x "source_code.zip"
