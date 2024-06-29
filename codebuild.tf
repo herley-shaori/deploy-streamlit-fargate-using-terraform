@@ -46,7 +46,7 @@ resource "aws_iam_role_policy" "codebuild_policy" {
           "ecr:*"
         ]
         Resource = [
-          aws_ecr_repository.my_repository.arn
+          "*"
         ]
       },
       {
@@ -54,7 +54,9 @@ resource "aws_iam_role_policy" "codebuild_policy" {
         Action = [
           "ecr:GetAuthorizationToken"
         ]
-        Resource = "*"
+        Resource = [
+          "*"
+        ]
       }
     ]
   })

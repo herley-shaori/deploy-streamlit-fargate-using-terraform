@@ -1,0 +1,1 @@
+sh zip_current_directory.sh && sh upload_source_code.sh && aws codebuild start-build --project-name streamlit
