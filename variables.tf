@@ -3,3 +3,7 @@ variable "bucket_name" {
   type        = string
   default     = "sample-bucket-for-streamlit-fargate-djgh7373nsjdhf"
 }
+
+variable "region" {
+  default     = "ap-southeast-3"
+}
